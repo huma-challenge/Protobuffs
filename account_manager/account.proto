@@ -8,9 +8,10 @@ service UserManager {
     rpc List(UserListRequest) returns (stream User) ;
     rpc Create(User) returns (User) ;
     rpc Retrieve(UserRetrieveRequest) returns (User) ;
-    rpc Update(User) returns (User) ;
-    rpc Destroy(User) returns (google.protobuf.Empty) ;
-    rpc Login (UserLoginRequest) returns (UserToken);
+    rpc Update(UserUpdateRequest) returns (User) ;
+    rpc Destroy(UserDestroyRequest) returns (google.protobuf.Empty) ;
+    rpc Login (UserLoginRequest) returns (UserLoginResponse);
+    rpc Logout (UserLogoutRequest) returns (google.protobuf.Empty);
 }
 
 message User {
@@ -26,14 +27,23 @@ message User {
     repeated int32 groups = 10;
 }
 
+message UserToken {
+    string token = 1;
+}
+
 message UserListRequest {
+    UserToken token = 1;
 }
 
-message UserRetrieveRequest {
-    int32 id = 1;
-}
+message UserDestroyRequest {
+    UserToken token = 1;
+ }
 
-message UserCreateResponse {
+ message UserRetrieveRequest {
+    UserToken token = 1;
+ }
+
+message UserUpdateRequest {
     UserToken token = 1;
     User user = 2;
 }
@@ -42,7 +52,12 @@ message UserLoginRequest {
     string username = 1;
     string password = 2;
 }
-
-message UserToken {
-    string token = 1;
+message UserLoginResponse {
+    UserToken token = 1;
+    User user = 2;
 }
+
+message UserLogoutRequest {
+    UserToken token = 1;
+}
+
