@@ -24,7 +24,6 @@ message User {
     bool is_active = 7;
     bool is_staff = 8;
     bool is_superuser = 9;
-    repeated int32 groups = 10;
 }
 
 message UserToken {
@@ -41,6 +40,7 @@ message UserDestroyRequest {
 
  message UserRetrieveRequest {
     UserToken token = 1;
+    int32 user_id = 2;
  }
 
 message UserUpdateRequest {
